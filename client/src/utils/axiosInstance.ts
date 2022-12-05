@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axios, { AxiosRequestConfig } from 'axios';
 import { getAccessWithRefresh } from '../api/User';
 import { getAccessToken } from './cookies';
 
@@ -10,9 +10,9 @@ const axiosInstance = axios.create({
 });
 
 axiosInstance.interceptors.request.use(
-  (config) => {
-    if (!config.headers['Authorization']) {
-      config.headers['Authorization'] = `${getAccessToken()}`;
+  (config: AxiosRequestConfig) => {
+    if (!config.headers!.Authorization) {
+      config.headers!.Authorization = `${getAccessToken()}`;
     }
 
     return config;

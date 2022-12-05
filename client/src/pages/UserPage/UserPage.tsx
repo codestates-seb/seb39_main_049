@@ -8,34 +8,16 @@ import { getUserId } from '../../utils/cookies';
 import UserTab from './Components/UserTab';
 
 const UserPage = () => {
-  const params = useParams();
   const [tab, setTab] = useState('answers');
-  const [data, setData] = useState(null);
-  const [page, setPage] = useState(1);
+
   const { getUser, profile, nickname } = userStore();
-  const [isHover, setIsHover] = useState(false);
+
   const [menu, setMenu] = useState('회원정보');
-  const navigate = useNavigate();
-  useEffect(() => {
-    const fetch = async () => {
-      const data = await getUsersActivity(tab, getUserId(), page, 10);
-      setData(data);
-    };
-    fetch();
-  }, [tab]);
+
   useEffect(() => {
     setTab('answers');
     getUser(getUserId());
   }, []);
-  const handleMouseOver = () => {
-    setIsHover(true);
-  };
-  const handleMouseOut = () => {
-    setIsHover(false);
-  };
-  const handleMenu = (e, newMenu) => {
-    setMenu(newMenu);
-  };
 
   return (
     <>

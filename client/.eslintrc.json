@@ -27,5 +27,12 @@
     "import/no-named-as-default": 0,
     "import/export": 0
   },
-  "plugins": ["unused-imports"]
+  "plugins": ["unused-imports"],
+  "settings": {
+    "import/resolver": {
+      "node": {
+        "extensions": [".js", ".jsx", ".ts", ".tsx"]
+      }
+    }
+  }
 }

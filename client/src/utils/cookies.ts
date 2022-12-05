@@ -7,7 +7,7 @@ const cookieOption = {
   path: '/',
 };
 
-export const setAccessToken = (accessToken) => {
+export const setAccessToken = (accessToken: string) => {
   cookies.set('access_token', accessToken, cookieOption);
 };
 export const getAccessToken = () => {
@@ -17,7 +17,7 @@ export const removeAccessToken = () => {
   return cookies.remove('access_token', cookieOption);
 };
 
-export const setRefreshToken = (refreshToken) => {
+export const setRefreshToken = (refreshToken: string) => {
   cookies.set('refresh_token', refreshToken, cookieOption);
 };
 export const getRefreshToken = () => {
@@ -27,7 +27,7 @@ export const removeRefreshToken = () => {
   return cookies.remove('refresh_token', cookieOption);
 };
 
-export const setUserId = (userId) => {
+export const setUserId = (userId: number) => {
   cookies.set('user_id', userId, cookieOption);
 };
 export const getUserId = () => {

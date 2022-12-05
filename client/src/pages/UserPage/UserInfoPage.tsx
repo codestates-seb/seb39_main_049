@@ -10,17 +10,18 @@ import { getUserId } from '../../utils/cookies';
 import AnswerComment from './Components/AnswerComment';
 import BasicTabs from './Components/BasicTabs';
 import UserPageAvatarWrapper from './Components/UserPageAvatarWrapper';
-
+import { PageInfo, Answer } from '../../api/User/activity';
 const UserInfoPage = () => {
   const params = useParams();
   const [tab, setTab] = useState('answers');
-  const [data, setData] = useState(null);
+  const [data, setData] = useState<PageInfo | Answer | {}>({});
   const [page, setPage] = useState(1);
   const { getUser, profile, nickname } = userStore();
 
   useEffect(() => {
     const fetch = async () => {
       const data = await getUsersActivity(tab, getUserId(), page, 10);
+      if (data === null) throw new Error('data is null');
       setData(data);
     };
     fetch();
@@ -60,7 +61,7 @@ const UserInfoPage = () => {
             <Pagination
               page={page}
               setPage={setPage}
-              totalPages={data.data.myPosts.pageInfo.totalPages}
+              totalPages={data?.data?.myPosts?.pageInfo?.totalPages}
             ></Pagination>
           )}
         </section>

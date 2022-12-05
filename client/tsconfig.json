@@ -7,7 +7,7 @@
     "skipLibCheck": true, //
     // "noImplicitAny": true, // 의도치않은 any할당시 error
     "allowSyntheticDefaultImports": true, //import React from "react" 이런식으로 쓸 수 있게 해줌
-    // "strict": true,
+    "strict": true,
     "forceConsistentCasingInFileNames": true, // 같은 파일의 참조를 일관되게 하지 않을경우 에러
     "noFallthroughCasesInSwitch": true,
     "module": "esnext",
