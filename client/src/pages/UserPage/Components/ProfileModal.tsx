@@ -26,7 +26,7 @@ const ProfileModal = ({
   const [previewImage, setPreviewImage] = useState<string>('');
   const { nickname, getUser } = userStore();
   const [croppedImage, setCroppedImage] = useState('');
-  const avatarEditorRef = useRef<HTMLInputElement>();
+  const avatarEditorRef = useRef<AvatarEditor>(null);
   const [blob, setBlob] = useState<Blob>();
   const [ImageSize, setImageSize] = useState(20);
   const config = {
@@ -57,11 +57,11 @@ const ProfileModal = ({
 
   const handleCropImage = useCallback(() => {
     avatarEditorRef!.current!.getImageScaledToCanvas().toBlob((blob) => {
-      const imageUrl = URL.createObjectURL(blob);
-      console.log(imageUrl, blob);
-      console.log(typeof imageUrl, typeof blob);
-      setCroppedImage(imageUrl);
-      setBlob(blob);
+      if (blob) {
+        setBlob(blob);
+        const imageUrl = URL.createObjectURL(blob);
+        setCroppedImage(imageUrl);
+      }
     });
   }, []);
 

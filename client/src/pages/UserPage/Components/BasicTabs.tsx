@@ -1,24 +1,29 @@
 import Box from '@mui/material/Box';
-import { useState } from 'react';
+import { Dispatch, SetStateAction, useState } from 'react';
 import styled from 'styled-components';
 
-export default function BasicTabs({ setTab }) {
+export default function BasicTabs({
+  setTab,
+}: {
+  setTab: Dispatch<SetStateAction<string>>;
+}) {
   const [active, setActive] = useState('answers');
-  const handleClick = (e) => {
-    if (e.target.id !== active) {
-      setActive(e.target.id);
+  const handleClick = (e: MouseEvent) => {
+    const target = e.target as HTMLSpanElement;
+    if (target.id !== active) {
+      setActive(target.id);
     }
-    setTab(e.target.id);
+    setTab(target.id);
   };
 
   return (
     <Box sx={{ width: '100%' }}>
       <Box>
         <Tabs>
-          <Tab onClick={handleClick} id="answers">
+          <Tab onClick={() => handleClick} id="answers">
             내 답변
           </Tab>
-          <Tab onClick={handleClick} id="comments">
+          <Tab onClick={() => handleClick} id="comments">
             내댓글
           </Tab>
         </Tabs>
