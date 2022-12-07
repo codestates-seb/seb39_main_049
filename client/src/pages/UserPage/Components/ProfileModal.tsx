@@ -16,26 +16,30 @@ import { modifyUser } from '../../../api/User';
 import { userStore } from '../../../store/store';
 import { getUserId } from '../../../utils/cookies';
 
-const ProfileModal = ({ open, handleClose }) => {
+const ProfileModal = ({
+  open,
+  handleClose,
+}: {
+  open: boolean;
+  handleClose: () => void;
+}) => {
   const [previewImage, setPreviewImage] = useState<string>('');
-  const [fileData, setFileData] = useState({});
   const { nickname, getUser } = userStore();
   const [croppedImage, setCroppedImage] = useState('');
-  const avatarEditorRef = useRef(null);
-  const [blob, setBlob] = useState<File>();
+  const avatarEditorRef = useRef<HTMLInputElement>();
+  const [blob, setBlob] = useState<Blob>();
   const [ImageSize, setImageSize] = useState(20);
   const config = {
     bucketName: 'saview-dev',
     region: 'ap-northeast-2',
     dirName: 'users',
-    accessKeyId: process.env.REACT_APP_AWS_ACCESS_KEY_ID,
-    secretAccessKey: process.env.REACT_APP_AWS_SECRET_ACCESS_KEY,
+    accessKeyId: process.env.REACT_APP_AWS_ACCESS_KEY_ID as string,
+    secretAccessKey: process.env.REACT_APP_AWS_SECRET_ACCESS_KEY as string,
   };
   const ReactS3Client = new S3(config);
 
-  const handleChange = useCallback((event) => {
+  const handleChange = useCallback((event: any) => {
     const file = event.target.files[0];
-    setFileData(file);
     if (!file) return;
     const reader = new FileReader();
     reader.readAsDataURL(file);
@@ -52,15 +56,17 @@ const ProfileModal = ({ open, handleClose }) => {
   }, []);
 
   const handleCropImage = useCallback(() => {
-    avatarEditorRef.current.getImageScaledToCanvas().toBlob((blob) => {
+    avatarEditorRef!.current!.getImageScaledToCanvas().toBlob((blob) => {
       const imageUrl = URL.createObjectURL(blob);
+      console.log(imageUrl, blob);
+      console.log(typeof imageUrl, typeof blob);
       setCroppedImage(imageUrl);
       setBlob(blob);
     });
   }, []);
 
   const handleSubmit = async () => {
-    const data = await ReactS3Client.uploadFile(blob, uuidv4());
+    const data = await ReactS3Client.uploadFile(blob as File, uuidv4());
     await modifyUser(nickname, data.location);
     handleClose();
     setPreviewImage('');
@@ -68,7 +74,8 @@ const ProfileModal = ({ open, handleClose }) => {
     setImageSize(20);
     getUser(getUserId());
   };
-  const handleChangeSize = (event, newValue) => {
+  const handleChangeSize = (event: Event, value: number | number[]) => {
+    const newValue = Array.isArray(value) ? value[0] : value;
     setImageSize(newValue);
   };
 

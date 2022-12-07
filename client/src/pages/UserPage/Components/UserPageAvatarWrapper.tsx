@@ -1,11 +1,17 @@
 const UserPageAvatarWrapper = ({
   size,
   src,
-  // onMouseOver,
-  // onMouseOut,
-  // isHover,
-  // handleClick,
-  ...props
+  onMouseOver,
+  onMouseOut,
+  isHover,
+  handleClick,
+}: {
+  size: number | string;
+  src: string;
+  onMouseOver?: () => void;
+  onMouseOut?: () => void;
+  isHover?: boolean;
+  handleClick?: (e: any) => void;
 }) => {
   return (
     <>
@@ -20,13 +26,13 @@ const UserPageAvatarWrapper = ({
           filter: 'brightness(100%)',
           borderRadius: '100px',
         }}
-        onFocus={props?.onMouseOver}
-        onMouseOver={props?.onMouseOver}
-        onBlur={props?.onMouseOut}
-        onMouseOut={props?.onMouseOut}
-        onClick={props?.handleClick}
+        onFocus={onMouseOver}
+        onMouseOver={onMouseOver}
+        onBlur={onMouseOut}
+        onMouseOut={onMouseOut}
+        onClick={handleClick}
       ></img>
-      {props?.isHover && (
+      {isHover && (
         <div
           style={{
             position: 'absolute',

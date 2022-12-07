@@ -4,8 +4,12 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
-
-export default function AlertDialog({ open, onClose }) {
+interface Props {
+  open: boolean;
+  onClose: (e: any) => void;
+  children?: string;
+}
+export default function AlertDialog({ open, onClose, children }: Props) {
   return (
     <div>
       <Dialog

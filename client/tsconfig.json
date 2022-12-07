@@ -7,7 +7,6 @@
     "skipLibCheck": true, //
     // "noImplicitAny": true, // 의도치않은 any할당시 error
     "allowSyntheticDefaultImports": true, //import React from "react" 이런식으로 쓸 수 있게 해줌
-    "strict": true,
     "forceConsistentCasingInFileNames": true, // 같은 파일의 참조를 일관되게 하지 않을경우 에러
     "noFallthroughCasesInSwitch": true,
     "module": "esnext",
@@ -15,6 +14,7 @@
     "resolveJsonModule": true, //json파일도 import 가능
     "isolatedModules": true, //소스코드를 반드시 작성해야됨
     "noEmit": true, //js파일 안만듬
+    "strict": true,
     "jsx": "react-jsx"
     // "incremental": true,
   },

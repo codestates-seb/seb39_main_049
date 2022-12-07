@@ -16,8 +16,7 @@ export interface PageInfo {
 }
 
 export interface UsersActivity {
-  pageInfo: PageInfo;
-  myPosts: Answer[];
+  myPosts: { data: Answer[]; pageInfo: PageInfo };
 }
 
 export async function getUsersActivity(
@@ -25,7 +24,7 @@ export async function getUsersActivity(
   id: number,
   page: number,
   size: number
-): Promise<object> {
+) {
   const result = await axiosInstance.get(
     `/users/${id}/user-${activity}?page=${page}&size=${size}`
   );

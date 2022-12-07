@@ -3,11 +3,12 @@ import { Box, TextField, Grid, Container, Button } from '@mui/material';
 import { userStore } from '../../store/store';
 import { getUserId } from '../../utils/cookies';
 import ProfileModal from './Components/ProfileModal';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, SetStateAction } from 'react';
 import UserPageAvatarWrapper from './Components/UserPageAvatarWrapper';
 import CreateIcon from '@mui/icons-material/Create';
 import { modifyPassword, modifyUser } from '../../api/User';
-import { useForm } from 'react-hook-form';
+import { FieldErrors, useForm } from 'react-hook-form';
+
 const style = {
   border: '1px solid #D9E4EC',
   borderRadius: '5px',
@@ -28,7 +29,7 @@ const ModifyUserPage = () => {
   const handleMouseOut = () => {
     setIsHover(false);
   };
-  const handleClick = (e) => {
+  const handleClick = (e: any) => {
     setOpenProfileModal(true);
   };
   const handleCloseProfileModal = () => {
@@ -37,12 +38,12 @@ const ModifyUserPage = () => {
   const handleNicknameModify = () => {
     setNicknameModify(true);
   };
-  const handleNicknameSubmit = async (text, profile) => {
+  const handleNicknameSubmit = async (text: string, profile: string) => {
     await modifyUser(text, profile);
     await setNicknameModify(false);
     await getUser(getUserId());
   };
-  const onChange = (e) => {
+  const onChange = (e: { target: { value: SetStateAction<string> } }) => {
     setText(e.target.value);
   };
   const {
@@ -51,15 +52,15 @@ const ModifyUserPage = () => {
     getValues,
     formState: { errors },
   } = useForm();
-  const onSubmit = async (data) => {
+  const onSubmit = async (data: any) => {
     await modifyPassword(data);
     await location.reload();
   };
-  const onError = (error) => {
-    if (error.curPassword) alert(error.curPassword.message);
-    else if (error.newPassword) alert(error.newPassword.message);
+  const onError = (errors: FieldErrors): void => {
+    if (errors.curPassword) alert(errors.curPassword.message);
+    else if (errors.newPassword) alert(errors.newPassword.message);
     else {
-      alert(error.passwordcheck.message);
+      alert(errors.passwordcheck?.message);
     }
   };
   useEffect(() => {
@@ -135,7 +136,6 @@ const ModifyUserPage = () => {
                         fullWidth
                         type="password"
                         label="새로운 비밀번호"
-                        name="새로운 비밀번호"
                         placeholder="영문자,숫자,특수문자 포함 8글자이상"
                         {...register('newPassword')}
                       />

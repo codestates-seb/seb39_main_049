@@ -10,19 +10,19 @@ import { getUserId } from '../../utils/cookies';
 import AnswerComment from './Components/AnswerComment';
 import BasicTabs from './Components/BasicTabs';
 import UserPageAvatarWrapper from './Components/UserPageAvatarWrapper';
-import { PageInfo, Answer } from '../../api/User/activity';
+import { UsersActivity } from '../../api/User/activity';
 const UserInfoPage = () => {
   const params = useParams();
   const [tab, setTab] = useState('answers');
-  const [data, setData] = useState<PageInfo | Answer | {}>({});
+  const [data, setData] = useState<UsersActivity>({} as UsersActivity);
   const [page, setPage] = useState(1);
   const { getUser, profile, nickname } = userStore();
 
   useEffect(() => {
     const fetch = async () => {
-      const data = await getUsersActivity(tab, getUserId(), page, 10);
-      if (data === null) throw new Error('data is null');
-      setData(data);
+      const res = await getUsersActivity(tab, getUserId(), page, 10);
+      if (res === null) throw new Error('data is null');
+      setData(res?.data);
     };
     fetch();
   }, [tab, page]);
@@ -30,7 +30,7 @@ const UserInfoPage = () => {
     setTab('answers');
     getUser(getUserId());
   }, []);
-
+  console.log(data);
   return (
     <>
       <UserPageContent>
@@ -49,19 +49,19 @@ const UserInfoPage = () => {
             <BasicTabs setTab={setTab}></BasicTabs>
           </TabWrapper>
           <AnswerCommentWrapper>
-            {data?.data?.myPosts?.data?.length > 0 ? (
-              data.data.myPosts.data.map((mypost) => (
+            {data?.myPosts?.data?.length > 0 ? (
+              data?.myPosts.data.map((mypost) => (
                 <AnswerComment mypost={mypost} key={mypost.createdAt} />
               ))
             ) : (
               <div>작성글이 없습니다</div>
             )}
           </AnswerCommentWrapper>
-          {data?.data?.myPosts && (
+          {data?.myPosts && (
             <Pagination
               page={page}
               setPage={setPage}
-              totalPages={data?.data?.myPosts?.pageInfo?.totalPages}
+              totalPages={data?.myPosts?.pageInfo?.totalPages}
             ></Pagination>
           )}
         </section>
